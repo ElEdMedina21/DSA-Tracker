@@ -1,6 +1,22 @@
 import { ChevronUpDownIcon, FunnelIcon } from "@heroicons/react/16/solid";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { backendURL } from "../utils/backendUrl";
+import DifficultyTag from "./DifficultyTag";
 
 export default function SolvedProblems() {
+  
+  const [problems, setProblems] = useState()
+
+  const getProblems = async()=>{
+    const {data} = await axios.get(`${backendURL}/problems`)
+    setProblems(data)
+  }
+
+  useEffect(()=>{
+    getProblems()
+  },[])
+
   return (
     <>
       <div className="flex flex-col gap-6 p-4">
@@ -42,18 +58,17 @@ export default function SolvedProblems() {
             </thead>
 
             <tbody>
-              <tr className=":bg-background-dark border-b dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900/50">
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Two Sum
-                </td>
-                <td className="px-6 py-4">2023-10-26</td>
-                <td className="px-6 py-4">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300">
-                    Easy
-                  </span>
-                </td>
-              </tr>
-
+              {problems && problems.map(problem=>(
+                <tr className=":bg-background-dark border-b dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900/50">
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {problem.problemName}
+                  </td>
+                  <td className="px-6 py-4">{problem.lastSolved.split("T")[0]}</td>
+                  <td className="px-6 py-4">
+                    <DifficultyTag difficulty={problem.difficulty}/>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
