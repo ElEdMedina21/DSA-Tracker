@@ -1,6 +1,8 @@
 import NavBar from "../components/NavBar"
 import TopicsTag from "../components/topicsTag"
 import { useState, useEffect } from "react"
+import axios from "axios"
+import { backendURL } from "../utils/backendUrl"
 
 export default function ProblemLogger(){
 
@@ -21,6 +23,31 @@ export default function ProblemLogger(){
         setTopics(topics.filter(topic => topic !== name));
     }
 
+    const clearForm = ()=>{
+        setName("")
+        setDifficulty("")
+        setTopics([])
+        setLink("")
+    }
+
+    const handleSubmit = async()=>{
+        try {
+            const {data} = await axios.post(`${backendURL}/newProblem`,
+                {
+                    problemName,
+                    difficulty,
+                    topics,
+                    link
+                }
+            )
+            if(data.code === 201){
+                clearForm()
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     useEffect(()=>{
         console.log(topics)
     },[topics])
@@ -38,7 +65,7 @@ export default function ProblemLogger(){
                             </p>
                         </div>
 
-                        <div className="flex flex-col gap-6 p-4">
+                        <section className="flex flex-col gap-6 p-4">
                             <div className="flex flex-col gap-4">
                                 <label className="flex flex-col min-w-40 flex-1">
                                     <p className="text-gray-300 text-base font-medium leading-normal pb-2">
@@ -94,14 +121,14 @@ export default function ProblemLogger(){
 
                             <label className="flex flex-col min-w-40 flex-1">
                                 <p className="text-gray-300 text-base font-medium leading-normal pb-2">
-                                    Solution Link
+                                    Problem Link
                                 </p>
                                 <input
                                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg 
                                         text-white focus:outline-0 focus:ring-0 
                                         border border-[#3b4754] bg-[#1c2127] focus:border-primary 
                                         h-14 placeholder:text-[#9dabb9] p-[15px] text-base font-normal leading-normal"
-                                    placeholder="Enter solution link"
+                                    placeholder="Enter problem link"
                                     value={link}
                                     onChange={e=>setLink(e.target.value)}
                                 />
@@ -111,11 +138,12 @@ export default function ProblemLogger(){
                                 <button
                                     className="flex h-12 items-center justify-center rounded-lg bg-primary px-6 
                                         text-base font-semibold text-white hover:bg-primary/90 cursor-pointer"
+                                    onClick={()=>handleSubmit()}
                                 >
                                     Add Problem
                                 </button>
                             </div>
-                        </div>
+                        </section>
                     </div>
                 </div>
             </div>
