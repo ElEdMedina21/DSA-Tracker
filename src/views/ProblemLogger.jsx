@@ -1,7 +1,30 @@
 import NavBar from "../components/NavBar"
 import TopicsTag from "../components/topicsTag"
+import { useState, useEffect } from "react"
 
 export default function ProblemLogger(){
+
+    const [problemName, setName] = useState("")
+    const [difficulty, setDifficulty] = useState("")
+    const [topics, setTopics] = useState([])
+    const [newTopic, setNewTopic] = useState("")
+    const [link, setLink] = useState("")
+
+    const handleKeyDown = (e)=>{
+        if(e.key === "Enter" && newTopic.trim() !== ""){
+            setTopics([...topics, newTopic.trim()])
+            setNewTopic("")
+        }
+    }
+
+    const removeTag = (name)=>{
+        setTopics(topics.filter(topic => topic !== name));
+    }
+
+    useEffect(()=>{
+        console.log(topics)
+    },[topics])
+
     return(
     <main className="h-screen bg-[#101922] font-display">
         <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
@@ -27,7 +50,8 @@ export default function ProblemLogger(){
                                             border border-[#3b4754] bg-[#1c2127] focus:border-primary 
                                             h-14 placeholder:text-[#9dabb9] p-[15px] text-base font-normal leading-normal"
                                     placeholder="Enter the problem title"
-                                    value=""
+                                    value={problemName}
+                                    onChange={e=>setName(e.target.value)}
                                     />
                                 </label>
 
@@ -41,6 +65,7 @@ export default function ProblemLogger(){
                                             border border-[#3b4754] bg-[#1c2127] focus:border-primary 
                                             h-14 bg-no-repeat bg-right_0.75rem_center appearance-none"
                                     required
+                                    onChange={e=>setDifficulty(e.target.value)}
                                     >
                                     <option value="" defaultValue>Select Difficulty</option>
                                     <option value="easy">Easy</option>
@@ -53,8 +78,13 @@ export default function ProblemLogger(){
                             <div>
                                 <p className="text-gray-300 text-base font-medium leading-normal pb-2">Topic(s)</p>
                                 <div className="flex flex-wrap gap-3 p-3 border border-[#3b4754] rounded-lg bg-[#1c2127]">
-                                    <TopicsTag name={"Arrays"}/>
+                                    {topics && topics.map((topic, index)=>(
+                                        <TopicsTag key={index} name={topic} removeTag={()=>removeTag(topic)}/>
+                                    ))}
                                     <input
+                                    value={newTopic}
+                                    onChange={e=>setNewTopic(e.target.value)}
+                                    onKeyDown={handleKeyDown}
                                     className="flex-1 bg-transparent text-white placeholder:text-[#9dabb9] focus:outline-none"
                                     placeholder="Add a topic..."
                                     type="text"
@@ -72,7 +102,8 @@ export default function ProblemLogger(){
                                         border border-[#3b4754] bg-[#1c2127] focus:border-primary 
                                         h-14 placeholder:text-[#9dabb9] p-[15px] text-base font-normal leading-normal"
                                     placeholder="Enter solution link"
-                                    value=""
+                                    value={link}
+                                    onChange={e=>setLink(e.target.value)}
                                 />
                             </label>
 
