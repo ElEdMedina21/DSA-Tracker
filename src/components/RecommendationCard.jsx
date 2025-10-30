@@ -1,4 +1,5 @@
 import DifficultyTag from "./DifficultyTag"
+import { CheckCircleIcon } from "@heroicons/react/24/outline"
 
 export default function RecommendationCard({problem}){
     return(
@@ -11,19 +12,22 @@ export default function RecommendationCard({problem}){
                     </h2>
                     <DifficultyTag difficulty={problem.difficulty}/>
                 </div>
-                <div className="flex gap-4">
-                    {problem.topics.map(topic=>(
-                        <span className="text-[#9dabb9] text-base font-normal leading-relaxed">
-                            {topic}
-                        </span>
-                    ))}
+                <div className="text-[#4A90E2] text-base font-normal leading-relaxed">
+                    <span className="text-white">Link: </span>
+                    <a target="_blank" href={problem.link}>{problem.link}</a>
                 </div>
-                <p className="text-[#333333] dark:text-[#9dabb9] text-base font-normal leading-relaxed">
-                    Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
-                </p>
-                <div className="flex items-center justify-end gap-3 pt-4">
-                    <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
-                    <span className="truncate">Solve Problem</span>
+                <div className="flex items-center justify-between mt-3">
+                    <div className="flex gap-4">
+                        <span className="text-white text-base font-normal leading-relaxed">Topics: </span>
+                        {problem.topics.map(topic=>(
+                            <span className="text-[#4A90E2] text-base font-normal leading-relaxed">
+                                {topic}
+                            </span>
+                        ))}
+                    </div>
+                    <button className="flex gap-1 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg py-2 px-2 bg-[#4A90E2] text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[#4A90E2]/90 transition-colors">
+                        <span className="truncate">Solved</span>
+                        <CheckCircleIcon className="size-5"/>
                     </button>
                 </div>
             </div>
