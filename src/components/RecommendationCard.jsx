@@ -19,8 +19,8 @@ export default function RecommendationCard({problem}){
                 <div className="flex items-center justify-between mt-3">
                     <div className="flex gap-4">
                         <span className="text-white text-base font-normal leading-relaxed">Topics: </span>
-                        {problem.topics.map(topic=>(
-                            <span className="text-[#4A90E2] text-base font-normal leading-relaxed">
+                        {problem.topics.map((topic, index)=>(
+                            <span key={index} className="text-[#4A90E2] text-base font-normal leading-relaxed">
                                 {topic}
                             </span>
                         ))}
