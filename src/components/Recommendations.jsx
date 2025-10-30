@@ -15,6 +15,13 @@ export default function Recommendations(){
         setRecommendations(data)
     }
 
+    const updateProblemIndex = (direction)=>{
+        setCurrentProblem((prev)=>{
+            const newIndex = prev + direction
+            return newIndex < 0 ? recommendations.length - 1 : newIndex % recommendations.length
+        })
+    }
+
     const solveProblem = async()=>{
         await axios.patch(`${backendURL}solveProblem`)
     }
@@ -51,12 +58,12 @@ export default function Recommendations(){
             <div className="flex justify-stretch">
                 <div className="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-end">
                     <button className="flex gap-1 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent dark:text-white text-sm font-bold leading-normal tracking-[0.015em] border dark:border-gray-700 dark:hover:bg-gray-700 transition-colors"
-                    onClick={()=>setCurrentProblem(prev => (prev-1) % recommendations.length)}>
+                    onClick={()=>updateProblemIndex(-1)}>
                         <ChevronLeftIcon className="size-5"/>
                         <span className="truncate">Back</span>
                     </button>
                     <button className="flex gap-1 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent dark:text-white text-sm font-bold leading-normal tracking-[0.015em] border dark:border-gray-700 dark:hover:bg-gray-700 transition-colors"
-                    onClick={()=>setCurrentProblem(prev => (prev+1) % recommendations.length)}>
+                    onClick={()=>updateProblemIndex(1)}>
                         <span className="truncate">Next</span>
                         <ChevronRightIcon className="size-5"/>
                     </button>
