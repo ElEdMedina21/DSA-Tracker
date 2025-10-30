@@ -11,7 +11,6 @@ export default function Recommendations(){
 
     const getRecommendations = async()=>{
         const {data} = await axios.get(`${backendURL}/recommendations`)
-        console.log(data)
         setRecommendations(data)
     }
 
@@ -20,10 +19,6 @@ export default function Recommendations(){
             const newIndex = prev + direction
             return newIndex < 0 ? recommendations.length - 1 : newIndex % recommendations.length
         })
-    }
-
-    const solveProblem = async()=>{
-        await axios.patch(`${backendURL}solveProblem`)
     }
 
     useEffect(()=>{
@@ -41,7 +36,7 @@ export default function Recommendations(){
 
             {/* Recommendation Card */}
             {recommendations.length > 0 ? 
-                <RecommendationCard problem={recommendations[currentProblem]}/> :
+                <RecommendationCard getRecommendations={getRecommendations} problem={recommendations[currentProblem]}/> :
                 <div className="p-4 @container">
                     <div className="flex flex-col items-stretch justify-start rounded-xl shadow-lg bg-background-light dark:bg-[#1c2127] dark:shadow-none">
                         <div className="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-4 p-6 sm:p-8">
