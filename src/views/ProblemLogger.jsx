@@ -48,10 +48,6 @@ export default function ProblemLogger(){
         }
     }
 
-    useEffect(()=>{
-        console.log(topics)
-    },[topics])
-
     return(
     <main className="h-screen bg-[#101922] font-display">
         <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
@@ -92,6 +88,7 @@ export default function ProblemLogger(){
                                             border border-[#3b4754] bg-[#1c2127] focus:border-primary 
                                             h-14 bg-no-repeat bg-right_0.75rem_center appearance-none"
                                     required
+                                    value={difficulty}
                                     onChange={e=>setDifficulty(e.target.value)}
                                     >
                                     <option value="" defaultValue>Select Difficulty</option>

@@ -11,9 +11,16 @@ export default function RecommendationCard({problem}){
                     </h2>
                     <DifficultyTag difficulty={problem.difficulty}/>
                 </div>
-                {/* <p className="text-[#333333] dark:text-[#9dabb9] text-base font-normal leading-relaxed">
+                <div className="flex gap-4">
+                    {problem.topics.map(topic=>(
+                        <span className="text-[#9dabb9] text-base font-normal leading-relaxed">
+                            {topic}
+                        </span>
+                    ))}
+                </div>
+                <p className="text-[#333333] dark:text-[#9dabb9] text-base font-normal leading-relaxed">
                     Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
-                </p> */}
+                </p>
                 <div className="flex items-center justify-end gap-3 pt-4">
                     <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
                     <span className="truncate">Solve Problem</span>
